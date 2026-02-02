@@ -23,7 +23,7 @@ func handle_input():
     velocity = move_vector.normalized() * move_speed
 
     if Input.is_action_just_pressed("trigger"):
-        var direction = bullet_spawn_marker.global_position.direction_to(get_global_mouse_position())
+        var direction = gun_sprite.global_position.direction_to(get_global_mouse_position())
 
         var bullet: Bullet = bullet_scene.instantiate()
         bullet.position = bullet_spawn_marker.global_position
