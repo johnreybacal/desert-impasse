@@ -1,37 +1,41 @@
 extends Node2D
 
 var cursor_scene = preload("res://scenes/cursor.tscn")
-
+var cursor: Node2D
 @export var camera: Camera2D
 @export var player: Player
+
+@onready var cursor_sprite: Sprite2D = $CursorSprite
 
 var camera_min_zoom = 3
 var camera_max_zoom = 4
 
 func _ready() -> void:
-    var cursor = cursor_scene.instantiate()
+    cursor = cursor_scene.instantiate()
     add_child(cursor)
     Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 
 func _process(_delta: float) -> void:
+    cursor_sprite.global_position = get_global_mouse_position()
     handle_camera()
     
 
 func handle_camera():
     var player_position = player.position
-    var mouse_position = get_global_mouse_position()
-    var target = (player_position + mouse_position) / 2
-    var distance = clamp(player_position.distance_to(mouse_position), 100, 175)
-    var zoom_offset = 1 - ((distance - 100) / 75)
-    var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
+    var cursor_position = cursor.position
+    var target = (player_position + cursor_position) / 2
     
     var offset = Vector2(150, 75)
     # target = clamp(target, player.position - offset, player.position + offset)
     target.x = clamp(target.x, player.position.x - offset.x, player.position.x + offset.x)
     target.y = clamp(target.y, player.position.y - offset.y, player.position.y + offset.y)
     
-    camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .05)
     camera.position = lerp(camera.position, target, .05)
+
+    var distance = clamp(player_position.distance_to(cursor_position), 100, 175)
+    var zoom_offset = 1 - ((distance - 100) / 75)
+    var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
+    camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .05)
 
     if Input.is_action_just_pressed("ui_cancel"):
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

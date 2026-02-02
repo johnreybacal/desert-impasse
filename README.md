@@ -1,4 +1,4 @@
-# Desert Impasse
+# Desert Impasse (Desert Imps)
  - Top down shooter
 
 ## Study Project
