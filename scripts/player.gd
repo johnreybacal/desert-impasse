@@ -15,6 +15,7 @@ func _ready() -> void:
     gun = gun_scene.instantiate()
     add_child(gun)
     gun.target = cursor
+    gun.on_recoil.connect(on_recoil)
 
 func _process(_delta: float) -> void:
     handle_animation()
@@ -38,3 +39,6 @@ func handle_animation():
         animated_sprite_2d.play("idle")
     else:
         animated_sprite_2d.play("walk")
+
+func on_recoil(direction: Vector2):
+    move_and_collide(direction * 2)

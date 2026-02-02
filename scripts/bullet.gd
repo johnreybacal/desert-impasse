@@ -1,7 +1,7 @@
 extends Area2D
 class_name Bullet
 
-var bullet_speed = 750
+var bullet_speed = 1000
 var direction: Vector2
 
 func _process(delta: float) -> void:

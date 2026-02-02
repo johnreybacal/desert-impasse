@@ -8,7 +8,7 @@ texture = ExtResource("1_og67c")
 offset = Vector2(6, 4)
 hframes = 10
 vframes = 4
-frame = 1
+frame = 5
 script = ExtResource("2_gp1hk")
 
 [node name="Marker2D" type="Marker2D" parent="."]
