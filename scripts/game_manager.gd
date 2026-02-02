@@ -18,8 +18,13 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
     cursor_sprite.global_position = get_global_mouse_position()
     handle_camera()
-    
 
+    if Input.is_action_just_pressed("ui_cancel"):
+        Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+    if Input.is_action_just_pressed("trigger"):
+        Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+
+    
 func handle_camera():
     var player_position = player.position
     var cursor_position = cursor.position
@@ -36,6 +41,3 @@ func handle_camera():
     var zoom_offset = 1 - ((distance - 100) / 75)
     var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
     camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .05)
-
-    if Input.is_action_just_pressed("ui_cancel"):
-        Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

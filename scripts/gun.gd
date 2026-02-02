@@ -2,6 +2,7 @@ extends Sprite2D
 class_name Gun
 
 @onready var marker_2d: Marker2D = $Marker2D
+@onready var shoot_sfx: AudioStreamPlayer2D = $ShootSfx
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var target: Node2D
@@ -45,24 +46,30 @@ func handle_aim():
 func fire():
     var bullet: Bullet = bullet_scene.instantiate()
 
+    # rotation
     var direction = global_position.direction_to(target.position).angle()
     var spread_multiplier = rng.randfn(0, 1)
     var spread_rad = deg_to_rad(spread) * spread_multiplier
-    print(spread, " :: ", spread_rad)
-    direction = randf_range(direction - spread_rad, direction + spread_rad)
 
-    # recoil gun
-    var recoil_direction = RAD_180 + direction
-    recoil_direction = Vector2.RIGHT.rotated(recoil_direction)
-    position = recoil_direction * 5
-    on_recoil.emit(recoil_direction)
+    direction = randf_range(direction - spread_rad, direction + spread_rad)
 
     bullet.position = marker_2d.global_position
     bullet.direction = Vector2.RIGHT.rotated(direction)
     bullet.rotation = direction
 
+    # recoil gun
+    var recoil_direction = RAD_180 + direction
+    recoil_direction = Vector2.RIGHT.rotated(recoil_direction)
+    
+    position = recoil_direction * 5
+    on_recoil.emit(recoil_direction)
+
+    # increase spread with each fire
     if spread < SPREAD:
         spread += 1.25
 
+    # sfx
+    shoot_sfx.pitch_scale = randf_range(0.9, 1.1)
+    shoot_sfx.play()
     
     get_parent().get_parent().add_child(bullet)
