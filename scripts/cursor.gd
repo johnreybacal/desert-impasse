@@ -14,7 +14,7 @@ func _physics_process(delta: float) -> void:
     var diff := position.distance_to(target)
 
     var diff_to_player := position.distance_to(player.position)
-    var speed := clampf((diff * 10) + diff_to_player - 50, 0, 1000)
+    var speed := clampf((diff * 15) + diff_to_player - 50, 0, 1000)
 
     var slow_diff := 50
 

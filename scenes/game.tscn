@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://r5cl0ct8a3fu"]
+[gd_scene load_steps=8 format=4 uid="uid://r5cl0ct8a3fu"]
 
 [ext_resource type="Script" uid="uid://4ig2cp2u2s70" path="res://scripts/game_manager.gd" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://dydmew61l4tpw" path="res://assets/sprites/world.png" id="1_uwrxv"]
@@ -335,6 +335,11 @@ terrain_set_0/terrain_1/name = "Sand Light"
 terrain_set_0/terrain_1/color = Color(0.059272088, 0.22110355, 0.23234943, 1)
 sources/0 = SubResource("TileSetAtlasSource_uwrxv")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_lbhrr"]
+vertices = PackedVector2Array(911, 216, 1020, 226, 838, 225, 837, -229, 910, -218, 101, 54.820313, -105.42969, 51.179688, -99.546875, -53.859375, 96.22656, -51.117188, 101, 7.8125, 102.25, -5.9609375, 386.71094, 13.1796875, 344.9375, -7.0390625, 1023, -228, 1049.0234, -228.89063, 1047.9766, 227.96094, 462.78906, -235, 456.21875, -536.0078, 1224.9609, -536.97656, 506.1328, -235, 1224.0313, -230.88281, 1120.4766, 235.89844, 1114.5391, 342.0078, 616.78906, 342.97656, 614.78906, 248.13281, 418, 225, 393.71094, 245.11719, 419, -17, 370, -20, 345.9297, -171.92969, 368, -146, 511.96094, -170.92969, 544, -143, 545, -228)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3, 4), PackedInt32Array(5, 6, 7, 8, 9), PackedInt32Array(9, 8, 10), PackedInt32Array(11, 9, 10, 12), PackedInt32Array(13, 14, 15, 1), PackedInt32Array(16, 17, 18, 19), PackedInt32Array(19, 18, 20, 14), PackedInt32Array(19, 14, 13, 3), PackedInt32Array(1, 15, 21, 22, 23, 24, 2), PackedInt32Array(25, 2, 24, 26), PackedInt32Array(25, 26, 11, 27), PackedInt32Array(28, 27, 11, 12), PackedInt32Array(28, 12, 29, 30), PackedInt32Array(30, 29, 31, 32), PackedInt32Array(33, 32, 31, 19), PackedInt32Array(13, 4, 3), PackedInt32Array(19, 3, 33)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-109, -64, 105, -61, 111, -16, 335, -17, 336, -182, 501, -181, 497, -225, 453, -225, 446, -546, 1235, -547, 1234, -221, 1059, -219, 1058, 219, 1131, 227, 1124, 352, 607, 353, 605, 258, 384, 255, 377, 23, 111, 18, 111, 65, -116, 61)])
+
 [node name="Game" type="Node2D"]
 
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player")]
@@ -354,3 +359,16 @@ tile_set = SubResource("TileSet_lnu2h")
 zoom = Vector2(3, 3)
 
 [node name="Player" parent="." instance=ExtResource("2_yqjtg")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_lbhrr")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D"]
+vertices = PackedVector2Array(545, -228, 837, -229, 838, 225, 418, 225, 419, -17, 370, -20, 368, -146, 544, -143)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="NavigationObstacle2D2" type="NavigationObstacle2D" parent="NavigationRegion2D"]
+vertices = PackedVector2Array(910, -218, 911, 216, 1020, 226, 1023, -228)
+affect_navigation_mesh = true
+carve_navigation_mesh = true

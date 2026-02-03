@@ -24,11 +24,13 @@ func _process(_delta: float) -> void:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
     if Input.is_action_just_pressed("trigger"):
         Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+    if Input.is_action_just_pressed("move"):
+        player.set_movement_target(get_global_mouse_position())
 
     
 func handle_camera():
     var player_position = player.position
-    var cursor_position = cursor.position
+    var cursor_position = get_global_mouse_position()
     var target = (player_position + cursor_position) / 2
     
     var offset = Vector2(150, 75)
@@ -41,4 +43,4 @@ func handle_camera():
     var distance = clamp(player_position.distance_to(cursor_position), 100, 175)
     var zoom_offset = 1 - ((distance - 100) / 75)
     var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
-    camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .05)
+    camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .01)
