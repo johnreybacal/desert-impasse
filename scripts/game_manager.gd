@@ -1,7 +1,7 @@
 extends Node2D
 
 var cursor_scene = preload("res://scenes/cursor.tscn")
-var cursor: Node2D
+var cursor: Cursor
 @export var camera: Camera2D
 @export var player: Player
 
@@ -12,6 +12,7 @@ var camera_max_zoom = 4
 
 func _ready() -> void:
     cursor = cursor_scene.instantiate()
+    cursor.camera = camera
     add_child(cursor)
     Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 
