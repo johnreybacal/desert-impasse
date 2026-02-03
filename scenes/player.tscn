@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ckckdcdkonh7r" path="res://assets/sprites/player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://dss7ewr7n4y66" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="AudioStream" uid="uid://b3v7l8av0hnhp" path="res://assets/sfx/move-a.ogg" id="3_qhqgy"]
-[ext_resource type="Texture2D" uid="uid://dn0goncfmkp1d" path="res://assets/sprites/interface.png" id="4_dqkch"]
+[ext_resource type="PackedScene" uid="uid://bcvef2esvhe2b" path="res://scenes/navigation_marker.tscn" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("1_3vyb7")
@@ -114,14 +114,6 @@ volume_db = -7.5
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="NavigationMarker" type="Sprite2D" parent="."]
-visible = false
-z_index = 1
-texture = ExtResource("4_dqkch")
-offset = Vector2(0, -6)
-flip_v = true
-hframes = 18
-vframes = 11
-frame = 75
+[node name="NavigationMarker" parent="." instance=ExtResource("4_dqkch")]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

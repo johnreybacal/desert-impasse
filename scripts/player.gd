@@ -5,7 +5,7 @@ class_name Player
 @onready var move_sfx: AudioStreamPlayer2D = $MoveSfx
 @onready var move_speed = 125
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var navigation_marker: Sprite2D = $NavigationMarker
+@onready var navigation_marker: Node2D = $NavigationMarker
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var gun_scene = preload("res://scenes/gun.tscn")
