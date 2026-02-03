@@ -12,6 +12,13 @@ var gun_scene = preload("res://scenes/gun.tscn")
 var gun: Gun
 var aim_cursor: Node2D
 
+var guns: Array[Gun.GunData] = [
+    Gun.GunData.instantiate("Pistol", .5, 5, Vector2(1, 0)),
+    Gun.GunData.instantiate("SMG", .05, 10, Vector2(2, 0)),
+    Gun.GunData.instantiate("Assault Rifle", .1, 5, Vector2(5, 0)),
+    Gun.GunData.instantiate("Sniper Rifle", 1, 1.5, Vector2(3, 0)),
+]
+var equipped: int = 0
 
 func _ready() -> void:
     aim_cursor = get_tree().get_first_node_in_group("cursor")
@@ -19,6 +26,7 @@ func _ready() -> void:
     add_child(gun)
     gun.target = aim_cursor
     gun.on_recoil.connect(on_recoil)
+    gun.set_gun(guns[equipped])
 
     navigation_marker.top_level = true
 
@@ -49,22 +57,36 @@ func _process(_delta: float) -> void:
     handle_animation()
 
 func _physics_process(_delta: float) -> void:
-    handle_input()
-
     if navigation_agent.is_navigation_finished():
         navigation_marker.visible = false
+        gun.apply_spread_penalty = false
         return
 
     var current_agent_position: Vector2 = global_position
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
     velocity = current_agent_position.direction_to(next_path_position) * move_speed
+    gun.apply_spread_penalty = true
     
     move_and_slide()
 
-func handle_input():
-    gun.is_triggering = Input.is_action_pressed("trigger")
+func _input(event: InputEvent) -> void:
+    if event.is_action_pressed("trigger"):
+        gun.is_triggering = true
+    if event.is_action_released("trigger"):
+        gun.is_triggering = false
 
+    if event is InputEventKey and event.is_pressed() and not event.is_echo():
+        if event.keycode >= KEY_1 and event.keycode <= KEY_4:
+            equipped = event.keycode - KEY_1
+            gun.set_gun(guns[equipped])
+    if event.is_action_pressed("switch_weapon_down") and equipped < len(guns) - 1:
+        equipped += 1
+        gun.set_gun(guns[equipped])
+    if event.is_action_pressed("switch_weapon_up") and equipped > 0:
+        equipped -= 1
+        gun.set_gun(guns[equipped])
+        
 func handle_animation():
     var is_looking_left = aim_cursor.position.x < position.x
 
