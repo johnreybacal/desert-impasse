@@ -18,6 +18,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
     cursor_sprite.global_position = get_global_mouse_position()
+    if cross_hair.distance_to_cursor < 50:
+        cursor_sprite.modulate.a = cross_hair.distance_to_cursor / 50
+        cross_hair.modulate.a = .5 + ((1 - (cross_hair.distance_to_cursor / 50)) / 2)
+    else:
+        cursor_sprite.modulate.a = 1
+        cross_hair.modulate.a = .5
     handle_camera()
 
     if Input.is_action_just_pressed("ui_cancel"):

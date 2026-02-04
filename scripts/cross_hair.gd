@@ -3,6 +3,7 @@ class_name CrossHair
 
 var player: Player
 var camera: Camera2D
+var distance_to_cursor: float
 
 func _ready() -> void:
     player = get_tree().get_first_node_in_group("player")
@@ -12,6 +13,7 @@ func _physics_process(delta: float) -> void:
 
     var direction := position.direction_to(target)
     var diff := position.distance_to(target)
+    distance_to_cursor = diff
 
     var diff_to_player := position.distance_to(player.position)
     var speed := clampf((diff * 15) + diff_to_player - 50, 0, 1000)
