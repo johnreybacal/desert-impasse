@@ -6,6 +6,7 @@ class_name Player
 @onready var move_speed = 125
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var navigation_marker: Node2D = $NavigationMarker
+@onready var navigation_line: Line2D = $NavigationLine
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var gun_scene = preload("res://scenes/gun.tscn")
@@ -28,6 +29,8 @@ func _ready() -> void:
     gun.on_recoil.connect(on_recoil)
     gun.set_gun(guns[equipped])
 
+    
+    navigation_line.top_level = true
     navigation_marker.top_level = true
 
     # https://docs.godotengine.org/en/stable/tutorials/navigation/navigation_introduction_2d.html
@@ -52,18 +55,31 @@ func set_movement_target(movement_target: Vector2):
     navigation_marker.global_position = navigation_agent.get_final_position()
     navigation_marker.visible = true
 
+    navigation_line.clear_points()
+    var navigation_points := navigation_agent.get_current_navigation_path()
+    for point in navigation_points:
+        navigation_line.add_point(point)
+
 
 func _process(_delta: float) -> void:
     handle_animation()
 
 func _physics_process(_delta: float) -> void:
     if navigation_agent.is_navigation_finished():
+        navigation_line.clear_points()
         navigation_marker.visible = false
         gun.apply_spread_penalty = false
         return
 
     var current_agent_position: Vector2 = global_position
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
+
+    # redraw previous lines to follow player
+    for i in navigation_line.points.size() - 1:
+        if navigation_line.points[i] == next_path_position:
+            break
+        navigation_line.set_point_position(i, position)
+            
 
     velocity = current_agent_position.direction_to(next_path_position) * move_speed
     gun.apply_spread_penalty = true
