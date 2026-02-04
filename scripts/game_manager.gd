@@ -1,7 +1,7 @@
 extends Node2D
 
-var cursor_scene = preload("res://scenes/cursor.tscn")
-var cursor: Cursor
+var cross_hair_scene = preload("res://scenes/cross_hair.tscn")
+var cross_hair: CrossHair
 @export var camera: Camera2D
 @export var player: Player
 
@@ -11,9 +11,9 @@ var camera_min_zoom = 3
 var camera_max_zoom = 4
 
 func _ready() -> void:
-    cursor = cursor_scene.instantiate()
-    cursor.camera = camera
-    add_child(cursor)
+    cross_hair = cross_hair_scene.instantiate()
+    cross_hair.camera = camera
+    add_child(cross_hair)
     Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 
 func _process(_delta: float) -> void:

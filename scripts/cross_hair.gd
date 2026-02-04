@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Cursor
+class_name CrossHair
 
 var player: Player
 var camera: Camera2D

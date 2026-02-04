@@ -1,18 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://cmnlbpp6dsyvf"]
 
-[ext_resource type="Texture2D" uid="uid://cql27qt8p2xxs" path="res://assets/sprites/weapon.png" id="1_1eco6"]
-[ext_resource type="Script" uid="uid://dwoio3f6i7osw" path="res://scripts/cursor.gd" id="2_s0nli"]
+[ext_resource type="Script" uid="uid://dwoio3f6i7osw" path="res://scripts/cross_hair.gd" id="1_q1moy"]
+[ext_resource type="Texture2D" uid="uid://cql27qt8p2xxs" path="res://assets/sprites/weapon.png" id="2_mwa6q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s0nli"]
 radius = 7.0
 
-[node name="Cursor" type="CharacterBody2D" groups=["cursor"]]
+[node name="CrossHair" type="CharacterBody2D" groups=["cursor"]]
 collision_layer = 2
 collision_mask = 2
 motion_mode = 1
 platform_on_leave = 2
 safe_margin = 10.0
-script = ExtResource("2_s0nli")
+script = ExtResource("1_q1moy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_s0nli")
@@ -20,7 +20,7 @@ shape = SubResource("CircleShape2D_s0nli")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.6862745)
 z_index = 50
-texture = ExtResource("1_1eco6")
+texture = ExtResource("2_mwa6q")
 hframes = 10
 vframes = 4
 frame = 27
