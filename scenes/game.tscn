@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://r5cl0ct8a3fu"]
+[gd_scene load_steps=9 format=4 uid="uid://r5cl0ct8a3fu"]
 
 [ext_resource type="Script" uid="uid://4ig2cp2u2s70" path="res://scripts/game_manager.gd" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://dydmew61l4tpw" path="res://assets/sprites/world.png" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://1e82hywo0x6b" path="res://assets/sprites/dot.png" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://c103alcakhq1" path="res://scenes/player.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://dfq0kxgqysqr3" path="res://scenes/enemy.tscn" id="5_iywne"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uwrxv"]
 texture = ExtResource("1_uwrxv")
@@ -372,3 +373,6 @@ carve_navigation_mesh = true
 vertices = PackedVector2Array(910, -218, 911, 216, 1020, 226, 1023, -228)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
+
+[node name="Enemy" parent="." instance=ExtResource("5_iywne")]
+position = Vector2(854, -350)

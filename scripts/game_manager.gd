@@ -7,8 +7,8 @@ var cross_hair: CrossHair
 
 @onready var cursor_sprite: Sprite2D = $CursorSprite
 
-var camera_min_zoom = 3
-var camera_max_zoom = 4
+var camera_min_zoom = 2
+var camera_max_zoom = 3
 
 func _ready() -> void:
     cross_hair = cross_hair_scene.instantiate()
@@ -46,7 +46,7 @@ func handle_camera():
     
     camera.position = lerp(camera.position, target, .05)
 
-    var distance = clamp(player_position.distance_to(cursor_position), 100, 175)
-    var zoom_offset = 1 - ((distance - 100) / 75)
+    var distance = clamp(player_position.distance_to(cursor_position), 200, 300)
+    var zoom_offset = 1 - ((distance - 200) / 100)
     var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
     camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .01)
