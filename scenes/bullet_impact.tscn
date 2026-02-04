@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://b122je5ey2wka"]
+
+[ext_resource type="Texture2D" uid="uid://c7fvinmimrndj" path="res://assets/sprites/bullet_impact.png" id="1_0uwed"]
+[ext_resource type="Script" uid="uid://duc2big6lxiew" path="res://scripts/bullet_impact.gd" id="2_cc8qb"]
+
+[sub_resource type="Animation" id="Animation_cc8qb"]
+resource_name = "default"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 10),
+"transitions": PackedFloat32Array(1, 1.9318737, 1),
+"update": 0,
+"values": [Color(0.9411765, 0, 0, 0.5882353), Color(1, 1, 1, 0.5882353), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a0uvq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.7176471, 0.14901961, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uht1g"]
+_data = {
+&"RESET": SubResource("Animation_a0uvq"),
+&"default": SubResource("Animation_cc8qb")
+}
+
+[node name="BulletImpact" type="Sprite2D"]
+modulate = Color(1, 0.7176471, 0.14901961, 1)
+z_index = 4
+texture = ExtResource("1_0uwed")
+script = ExtResource("2_cc8qb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_uht1g")
+}
+autoplay = "default"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

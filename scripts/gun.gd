@@ -59,13 +59,16 @@ func fire():
     var bullet: Bullet = bullet_scene.instantiate()
 
     # rotation
-    var direction := global_position.direction_to(target.position).angle()
+    var direction := marker_2d.global_position.direction_to(target.position).angle()
+    var distance := marker_2d.global_position.distance_to(target.position)
     # var spread_multiplier = randfn(.5, 1.5)
     print("spread: ", spread)
     var spread_rad := deg_to_rad(spread * (2 if apply_spread_penalty else 1))
 
     direction = randfn(direction, spread_rad)
+    distance = randfn(distance - SPREAD, SPREAD)
 
+    bullet.max_distance = distance
     bullet.position = marker_2d.global_position
     bullet.direction = Vector2.RIGHT.rotated(direction)
     bullet.rotation = direction
