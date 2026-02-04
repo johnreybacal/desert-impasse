@@ -7,8 +7,8 @@
 radius = 7.0
 
 [node name="CrossHair" type="CharacterBody2D" groups=["cursor"]]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 4
+collision_mask = 2
 motion_mode = 1
 platform_on_leave = 2
 safe_margin = 10.0

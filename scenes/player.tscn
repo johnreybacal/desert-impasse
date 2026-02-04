@@ -81,8 +81,8 @@ radius = 14.035668
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 10
+collision_layer = 2
 motion_mode = 1
-safe_margin = 10.0
 script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -71,7 +71,6 @@ func _physics_process(_delta: float) -> void:
         gun.apply_spread_penalty = false
         return
 
-    var current_agent_position: Vector2 = global_position
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
     # redraw previous lines to follow player
@@ -81,7 +80,7 @@ func _physics_process(_delta: float) -> void:
         navigation_line.set_point_position(i, position)
             
 
-    velocity = current_agent_position.direction_to(next_path_position) * move_speed
+    velocity = global_position.direction_to(next_path_position) * move_speed
     gun.apply_spread_penalty = true
     
     move_and_slide()

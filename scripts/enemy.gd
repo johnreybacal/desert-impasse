@@ -45,10 +45,9 @@ func _physics_process(_delta: float) -> void:
     if navigation_agent.is_navigation_finished():
         return
 
-    var current_agent_position: Vector2 = global_position
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
-    velocity = current_agent_position.direction_to(next_path_position) * move_speed
+    velocity = global_position.direction_to(next_path_position) * move_speed
     handle_animation()
 
     move_and_slide()

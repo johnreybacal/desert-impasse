@@ -142,6 +142,9 @@ _data = {
 
 [node name="Enemy" type="CharacterBody2D"]
 z_index = 10
+collision_layer = 8
+collision_mask = 3
+motion_mode = 1
 script = ExtResource("1_4ra3w")
 alert_color = Color(0.89411765, 0.023529412, 0, 0.11764706)
 
@@ -159,11 +162,10 @@ path_desired_distance = 50.0
 
 [node name="VisionCone2D" type="Node2D" parent="." node_paths=PackedStringArray("write_collision_polygon")]
 script = ExtResource("3_5uy6h")
-ray_count = 50
+ray_count = 12
 max_distance = 200.0
-collision_layer_mask = 1
+collision_layer_mask = 2
 write_collision_polygon = NodePath("VisionConeArea/VisionConeCollider")
-debug_lines = true
 debug_shape = true
 min_distance_sqr = 64.0
 
@@ -172,6 +174,7 @@ color = Color(0.43137255, 0.92941177, 0.2784314, 0.11764706)
 
 [node name="VisionConeArea" type="Area2D" parent="VisionCone2D"]
 collision_layer = 0
+collision_mask = 2
 monitorable = false
 
 [node name="VisionConeCollider" type="CollisionPolygon2D" parent="VisionCone2D/VisionConeArea"]

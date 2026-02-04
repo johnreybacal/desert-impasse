@@ -8,7 +8,7 @@ var distance_to_cursor: float
 func _ready() -> void:
     player = get_tree().get_first_node_in_group("player")
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
     var target := get_global_mouse_position()
 
     var direction := position.direction_to(target)
@@ -16,16 +16,14 @@ func _physics_process(delta: float) -> void:
     distance_to_cursor = diff
 
     var diff_to_player := position.distance_to(player.position)
-    var speed := clampf((diff * 15) + diff_to_player - 50, 0, 1000)
+    var speed := clampf((diff * 20) + diff_to_player - 50, 0, 750)
 
-    var slow_diff := 50
-
-    if diff_to_player < 75 and diff < 25:
-        speed /= 2
-    elif diff < slow_diff:
+    var slow_diff := 150
+    
+    if diff < slow_diff:
         speed = (diff * 10) + (diff / slow_diff)
 
-    velocity = velocity.move_toward(direction * speed, delta * 500)
+    velocity = velocity.lerp(direction * speed, .05)
 
     move_and_slide()
     limit_movement()

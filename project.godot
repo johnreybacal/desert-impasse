@@ -49,6 +49,25 @@ switch_weapon_down={
 ]
 }
 
+[layer_names]
+
+2d_render/layer_1="World"
+2d_render/layer_2="Player"
+2d_render/layer_3="CrossHair"
+2d_render/layer_4="Enemy"
+2d_physics/layer_1="World"
+2d_navigation/layer_1="World"
+2d_physics/layer_2="Player"
+2d_navigation/layer_2="Player"
+2d_physics/layer_3="CrossHair"
+2d_navigation/layer_3="CrossHair"
+2d_physics/layer_4="Enemy"
+2d_navigation/layer_4="Enemy"
+avoidance/layer_1="World"
+avoidance/layer_2="Player"
+avoidance/layer_3="CrossHair"
+avoidance/layer_4="Enemy"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

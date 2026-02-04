@@ -39,14 +39,14 @@ func handle_camera():
     var cursor_position = get_global_mouse_position()
     var target = (player_position + cursor_position) / 2
     
-    var offset = Vector2(150, 75)
+    var offset = Vector2(250, 125)
     # target = clamp(target, player.position - offset, player.position + offset)
     target.x = clamp(target.x, player.position.x - offset.x, player.position.x + offset.x)
     target.y = clamp(target.y, player.position.y - offset.y, player.position.y + offset.y)
     
     camera.position = lerp(camera.position, target, .05)
 
-    var distance = clamp(player_position.distance_to(cursor_position), 200, 300)
-    var zoom_offset = 1 - ((distance - 200) / 100)
-    var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
-    camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .01)
+    # var distance = clamp(player_position.distance_to(cursor_position), 200, 300)
+    # var zoom_offset = 1 - ((distance - 200) / 100)
+    # var target_zoom = clamp(camera_min_zoom + zoom_offset, camera_min_zoom, camera_max_zoom)
+    # camera.zoom = lerp(camera.zoom, Vector2(target_zoom, target_zoom), .05)
