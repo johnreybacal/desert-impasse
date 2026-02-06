@@ -4,6 +4,7 @@ var cross_hair_scene = preload("res://scenes/cross_hair.tscn")
 var cross_hair: CrossHair
 @export var camera: Camera2D
 @export var player: Player
+@export var navigation_region: NavigationRegion2D
 
 @onready var cursor_sprite: Sprite2D = $CursorSprite
 
@@ -31,7 +32,10 @@ func _process(_delta: float) -> void:
     if Input.is_action_just_pressed("trigger"):
         Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
     if Input.is_action_just_pressed("move"):
-        player.set_movement_target(get_global_mouse_position())
+        var nav_map := navigation_region.get_world_2d().navigation_map
+        
+        var target := NavigationServer2D.map_get_closest_point(nav_map, navigation_region.get_global_mouse_position())
+        player.set_movement_target(target)
 
     
 func handle_camera():

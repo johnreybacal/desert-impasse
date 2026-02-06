@@ -54,7 +54,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_md484"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4w8v"]
+size = Vector2(20, 0)
 
 [sub_resource type="Animation" id="Animation_nenq2"]
 length = 0.001
@@ -143,7 +144,7 @@ _data = {
 [node name="Enemy" type="CharacterBody2D"]
 z_index = 10
 collision_layer = 8
-collision_mask = 3
+collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_4ra3w")
 alert_color = Color(0.89411765, 0.023529412, 0, 0.11764706)
@@ -153,28 +154,25 @@ position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_nenq2")
 animation = &"worm"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_md484")
+[node name="WorldCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c4w8v")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 50.0
 
-[node name="VisionCone2D" type="Node2D" parent="." node_paths=PackedStringArray("write_collision_polygon")]
+[node name="VisionCone2D" type="Node2D" parent="." node_paths=PackedStringArray("write_collision_polygon", "write_polygon2d")]
 script = ExtResource("3_5uy6h")
-ray_count = 12
 max_distance = 200.0
-collision_layer_mask = 2
+collision_layer_mask = 3
 write_collision_polygon = NodePath("VisionConeArea/VisionConeCollider")
-debug_shape = true
-min_distance_sqr = 64.0
+write_polygon2d = NodePath("VisionConeRenderer")
 
 [node name="VisionConeRenderer" type="Polygon2D" parent="VisionCone2D"]
-color = Color(0.43137255, 0.92941177, 0.2784314, 0.11764706)
+color = Color(0.89411765, 0.023529412, 0, 0.05882353)
 
 [node name="VisionConeArea" type="Area2D" parent="VisionCone2D"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 3
 monitorable = false
 
 [node name="VisionConeCollider" type="CollisionPolygon2D" parent="VisionCone2D/VisionConeArea"]
@@ -195,5 +193,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_md484")
 }
 
-[connection signal="body_entered" from="VisionCone2D/VisionConeArea" to="." method="_on_vision_cone_area_body_entered"]
-[connection signal="body_exited" from="VisionCone2D/VisionConeArea" to="." method="_on_vision_cone_area_body_exited"]
+[connection signal="area_entered" from="VisionCone2D/VisionConeArea" to="." method="_on_vision_cone_area_area_entered"]
+[connection signal="area_exited" from="VisionCone2D/VisionConeArea" to="." method="_on_vision_cone_area_area_exited"]

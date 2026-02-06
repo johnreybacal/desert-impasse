@@ -25,21 +25,6 @@ func set_movement_target(movement_target: Vector2):
     navigation_agent.target_position = movement_target
     
 
-func _on_vision_cone_area_body_entered(body: Node2D) -> void:
-    if body is Player:
-        print("%s is seeing %s" % [ self , body])
-        vision_renderer.color = alert_color
-        if not target:
-            alerted_animation.play("alerted")
-        target = body
-
-func _on_vision_cone_area_body_exited(body: Node2D) -> void:
-    if body is Player:
-        target = null
-        print("%s stopped seeing %s" % [ self , body])
-        vision_renderer.color = original_color
-
-
 func _physics_process(_delta: float) -> void:
     if target:
         set_movement_target(target.global_position)
@@ -57,3 +42,22 @@ func handle_animation():
     animated_sprite_2d.play("worm")
     if target:
         animated_sprite_2d.flip_h = position.x > target.position.x
+
+
+func _on_vision_cone_area_area_entered(area: Area2D) -> void:
+    if area is Character:
+        if area.faction == Character.Faction.Enemy:
+            return
+        print("%s is seeing %s" % [ self , area])
+        vision_renderer.color = alert_color
+        if not target:
+            alerted_animation.play("alerted")
+        target = area
+
+func _on_vision_cone_area_area_exited(area: Area2D) -> void:
+    if area is Character:
+        if area.faction == Character.Faction.Enemy:
+            return
+        target = null
+        print("%s stopped seeing %s" % [ self , area])
+        vision_renderer.color = original_color

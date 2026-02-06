@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://c103alcakhq1"]
+[gd_scene load_steps=17 format=3 uid="uid://c103alcakhq1"]
 
 [ext_resource type="Texture2D" uid="uid://ckckdcdkonh7r" path="res://assets/sprites/player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://dss7ewr7n4y66" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="AudioStream" uid="uid://b3v7l8av0hnhp" path="res://assets/sfx/move-a.ogg" id="3_qhqgy"]
+[ext_resource type="Script" uid="uid://blecdjk8km7pe" path="res://scripts/character.gd" id="3_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://bcvef2esvhe2b" path="res://scenes/navigation_marker.tscn" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
@@ -71,7 +72,10 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fjrip"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
+size = Vector2(20, 0)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
 friction = 0.0
@@ -81,8 +85,10 @@ radius = 14.035668
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 10
-collision_layer = 2
+collision_layer = 0
 motion_mode = 1
+wall_min_slide_angle = 0.0
+platform_wall_layers = 1
 script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -93,8 +99,16 @@ autoplay = "idle"
 frame = 1
 frame_progress = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Character" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_qlg0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Character"]
 position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_fjrip")
+
+[node name="WorldCollider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tuyoq")
 
 [node name="CursorBlocker" type="StaticBody2D" parent="."]
@@ -114,6 +128,9 @@ stream = ExtResource("3_qhqgy")
 volume_db = -7.5
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 200.0
+simplify_path = true
+simplify_epsilon = 10.0
 
 [node name="NavigationMarker" parent="." instance=ExtResource("4_dqkch")]
 
