@@ -29,8 +29,9 @@ func _on_vision_cone_area_body_entered(body: Node2D) -> void:
     if body is Player:
         print("%s is seeing %s" % [ self , body])
         vision_renderer.color = alert_color
+        if not target:
+            alerted_animation.play("alerted")
         target = body
-        alerted_animation.play("alerted")
 
 func _on_vision_cone_area_body_exited(body: Node2D) -> void:
     if body is Player:
