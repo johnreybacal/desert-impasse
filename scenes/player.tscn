@@ -128,7 +128,6 @@ stream = ExtResource("3_qhqgy")
 volume_db = -7.5
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_max_distance = 200.0
 simplify_path = true
 simplify_epsilon = 10.0
 
