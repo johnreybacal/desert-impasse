@@ -9,7 +9,9 @@ class_name Enemy
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var move_speed = 50
 @onready var alerted_animation: AnimationPlayer = $AlertedSprite/AnimationPlayer
+
 var target: Node2D
+var target_positioning_interval: float = .5
 
 func _ready() -> void:
     navigation_agent.path_desired_distance = 4.0
@@ -25,10 +27,15 @@ func set_movement_target(movement_target: Vector2):
     navigation_agent.target_position = movement_target
     
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
     if target:
-        set_movement_target(target.global_position)
+        target_positioning_interval -= delta
+        if target_positioning_interval <= 0:
+            set_movement_target(target.global_position)
+            target_positioning_interval = .5
     if navigation_agent.is_navigation_finished():
+        if target:
+            set_movement_target(target.global_position)
         return
 
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()

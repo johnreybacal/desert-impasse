@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c103alcakhq1"]
+[gd_scene load_steps=16 format=3 uid="uid://c103alcakhq1"]
 
 [ext_resource type="Texture2D" uid="uid://ckckdcdkonh7r" path="res://assets/sprites/player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://dss7ewr7n4y66" path="res://scripts/player.gd" id="1_g2els"]
@@ -77,9 +77,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
 size = Vector2(20, 0)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
-friction = 0.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
 radius = 14.035668
 
@@ -111,12 +108,11 @@ shape = SubResource("RectangleShape2D_fjrip")
 [node name="WorldCollider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tuyoq")
 
-[node name="CursorBlocker" type="StaticBody2D" parent="."]
-collision_layer = 2
-collision_mask = 2
-physics_material_override = SubResource("PhysicsMaterial_g2els")
+[node name="CrossHairBlocker" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CursorBlocker"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CrossHairBlocker"]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_g2els")
 debug_color = Color(0.57472575, 0.5068191, 0.6125278, 0.41960785)
@@ -128,8 +124,6 @@ stream = ExtResource("3_qhqgy")
 volume_db = -7.5
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-simplify_path = true
-simplify_epsilon = 10.0
 
 [node name="NavigationMarker" parent="." instance=ExtResource("4_dqkch")]
 

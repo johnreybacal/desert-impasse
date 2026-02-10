@@ -158,14 +158,16 @@ animation = &"worm"
 shape = SubResource("RectangleShape2D_c4w8v")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 50.0
+debug_enabled = true
 
 [node name="VisionCone2D" type="Node2D" parent="." node_paths=PackedStringArray("write_collision_polygon", "write_polygon2d")]
 script = ExtResource("3_5uy6h")
+ray_count = 64
 max_distance = 200.0
 collision_layer_mask = 3
 write_collision_polygon = NodePath("VisionConeArea/VisionConeCollider")
 write_polygon2d = NodePath("VisionConeRenderer")
+min_distance_sqr = 64.0
 
 [node name="VisionConeRenderer" type="Polygon2D" parent="VisionCone2D"]
 color = Color(0.89411765, 0.023529412, 0, 0.05882353)
