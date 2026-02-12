@@ -17,5 +17,3 @@ lifetime = 0.75
 interp_to_end = 0.1
 explosiveness = 0.9
 process_material = SubResource("ParticleProcessMaterial_ahw10")
-
-[connection signal="finished" from="." to="." method="queue_free"]

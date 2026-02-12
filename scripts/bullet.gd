@@ -1,4 +1,4 @@
-extends Area2D
+extends RigidBody2D
 class_name Bullet
 
 var bullet_speed = 500
@@ -14,21 +14,39 @@ func _ready() -> void:
     initial_position = position
 
 func _process(delta: float) -> void:
-    position += direction * bullet_speed * delta
-    distance_travelled = position.distance_to(initial_position)
-    if distance_travelled >= max_distance:
-        var particle: GPUParticles2D = impact_particle_scene.instantiate()
-        var bullet_impact = bullet_impact_scene.instantiate()
-
-        get_parent().add_child(particle)
-        get_parent().add_child(bullet_impact)
-        particle.position = position
-        particle.one_shot = true
-        particle.emitting = true
-        
-        bullet_impact.position = position
-        
-        queue_free()
+    var velocity = direction * bullet_speed * delta
     
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+    var collision := move_and_collide(velocity)
+    
+    if collision:
+        hit_world(velocity.angle())
+
+    distance_travelled = position.distance_to(initial_position)
+
+    if distance_travelled >= max_distance:
+        hit_world()
+
+    
+func hit_world(angle = null):
+    var bullet_impact: Sprite2D = bullet_impact_scene.instantiate()
+    get_parent().add_child(bullet_impact)
+    bullet_impact.position = position
+
+    var particle: GPUParticles2D = impact_particle_scene.instantiate()
+    get_parent().add_child(particle)
+
+    if angle:
+        bullet_impact.scale.x = .75
+        bullet_impact.rotate(angle)
+        bullet_impact.position += Vector2.from_angle(angle) * Vector2(2, randi_range(1, 4))
+        particle.look_at(Vector2.UP)
+        particle.rotate(angle)
+
+    particle.position = position
+    particle.emitting = false
+    
+    particle.one_shot = true
+    particle.finished.connect(particle.queue_free)
+    particle.emitting = true
+
     queue_free()

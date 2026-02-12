@@ -6,6 +6,9 @@
 [ext_resource type="Script" uid="uid://blecdjk8km7pe" path="res://scripts/character.gd" id="3_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://bcvef2esvhe2b" path="res://scenes/navigation_marker.tscn" id="4_dqkch"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
+size = Vector2(20, 0)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("1_3vyb7")
 region = Rect2(25, 50, 24, 24)
@@ -74,9 +77,6 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjrip"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
-size = Vector2(20, 0)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
 radius = 14.035668
 
@@ -87,6 +87,9 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 platform_wall_layers = 1
 script = ExtResource("1_g2els")
+
+[node name="WorldCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tuyoq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -104,9 +107,6 @@ script = ExtResource("3_qlg0r")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Character"]
 position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_fjrip")
-
-[node name="WorldCollider" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_tuyoq")
 
 [node name="CrossHairBlocker" type="StaticBody2D" parent="."]
 collision_layer = 4

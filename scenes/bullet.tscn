@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://dfsno1ggy24fv" path="res://scripts/bullet.gd" id="1_mkf8s"]
 [ext_resource type="Texture2D" uid="uid://cql27qt8p2xxs" path="res://assets/sprites/weapon.png" id="2_y25gk"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
+size = Vector2(6, 6)
+
 [sub_resource type="Gradient" id="Gradient_h1aey"]
 offsets = PackedFloat32Array(0, 0.5744681)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
@@ -12,11 +15,16 @@ gradient = SubResource("Gradient_h1aey")
 width = 20
 height = 3
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
-size = Vector2(6, 2)
-
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 9
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_mkf8s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y25gk")
 
 [node name="Trail" type="Sprite2D" parent="."]
 position = Vector2(-9, 0)
@@ -27,11 +35,3 @@ texture = ExtResource("2_y25gk")
 hframes = 10
 vframes = 4
 frame = 23
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-4, 0)
-shape = SubResource("RectangleShape2D_y25gk")
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
