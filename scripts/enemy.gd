@@ -18,6 +18,8 @@ func _ready() -> void:
 
     actor_setup.call_deferred()
 
+    alerted_sprite.visible = false
+
 func actor_setup():
     # Wait for the first physics frame so the NavigationServer can sync.
     await get_tree().physics_frame
@@ -48,7 +50,9 @@ func _physics_process(delta: float) -> void:
         target_positioning_interval -= delta
         if target_positioning_interval <= 0:
             set_movement_target(target.global_position)
-            target_positioning_interval = .25
+            target_positioning_interval = .5
+
+    handle_animation()
 
     # Navigation finished
     if navigation_agent.is_navigation_finished():
@@ -57,8 +61,6 @@ func _physics_process(delta: float) -> void:
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
     velocity = global_position.direction_to(next_path_position) * move_speed
-
-    handle_animation()
 
     move_and_slide()
 

@@ -99,7 +99,7 @@ autoplay = "idle"
 frame = 1
 frame_progress = 1.0
 
-[node name="Character" type="Area2D" parent="."]
+[node name="Character" type="StaticBody2D" parent="."]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("3_qlg0r")

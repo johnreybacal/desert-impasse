@@ -28,7 +28,7 @@ func _ready() -> void:
     gun.target = aim_cursor
     gun.on_recoil.connect(on_recoil)
     gun.set_gun(guns[equipped])
-
+    gun.faction = Character.Faction.Player
     
     navigation_line.top_level = true
     navigation_marker.top_level = true

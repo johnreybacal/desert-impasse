@@ -30,6 +30,8 @@ var SPREAD: float = 15
 var spread: float = 1
 var apply_spread_penalty := false
 
+var faction: Character.Faction
+
 signal on_recoil(direction: Vector2)
 
 func _process(_delta: float) -> void:
@@ -68,6 +70,7 @@ func fire():
     direction = randfn(direction, spread_rad)
     distance = randfn(distance - SPREAD, SPREAD)
 
+    bullet.faction = faction
     bullet.max_distance = distance
     bullet.position = marker_2d.global_position
     bullet.direction = Vector2.RIGHT.rotated(direction)
