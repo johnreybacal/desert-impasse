@@ -1,19 +1,18 @@
 extends CharacterBody2D
 class_name Enemy
 
-@export var alert_color: Color
-
-@onready var vision_renderer: Polygon2D = $VisionCone2D/VisionConeRenderer
-@onready var original_color = vision_renderer.color if vision_renderer else Color.WHITE
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var move_speed = 50
-@onready var alerted_animation: AnimationPlayer = $AlertedSprite/AnimationPlayer
+@onready var ray_cast: RayCast2D = $VisionRayCast
+@onready var alerted_sprite: Sprite2D = $AlertedSprite
 
 var target: Node2D
 var target_positioning_interval: float = .5
+var target_in_sight: bool
 
 func _ready() -> void:
+    target = get_tree().get_first_node_in_group("player")
     navigation_agent.path_desired_distance = 4.0
     navigation_agent.target_desired_distance = 4.0
 
@@ -28,19 +27,37 @@ func set_movement_target(movement_target: Vector2):
     
 
 func _physics_process(delta: float) -> void:
+    target_in_sight = false
+
+    # Point raycast to player
     if target:
+        var direction = global_position.direction_to(target.global_position)
+        ray_cast.target_position = direction * 200
+
+    # Check if raycast sees player
+    if ray_cast.is_colliding():
+        var collider = ray_cast.get_collider()
+        if collider is Character:
+            if collider.faction == Character.Faction.Player:
+                if not target_in_sight:
+                    target_positioning_interval = 0
+                target_in_sight = true
+                
+    # Set movement towards player
+    if target_in_sight:
         target_positioning_interval -= delta
         if target_positioning_interval <= 0:
             set_movement_target(target.global_position)
-            target_positioning_interval = .5
+            target_positioning_interval = .25
+
+    # Navigation finished
     if navigation_agent.is_navigation_finished():
-        if target:
-            set_movement_target(target.global_position)
         return
 
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
     velocity = global_position.direction_to(next_path_position) * move_speed
+
     handle_animation()
 
     move_and_slide()
@@ -50,21 +67,4 @@ func handle_animation():
     if target:
         animated_sprite_2d.flip_h = position.x > target.position.x
 
-
-func _on_vision_cone_area_area_entered(area: Area2D) -> void:
-    if area is Character:
-        if area.faction == Character.Faction.Enemy:
-            return
-        print("%s is seeing %s" % [ self , area])
-        vision_renderer.color = alert_color
-        if not target:
-            alerted_animation.play("alerted")
-        target = area
-
-func _on_vision_cone_area_area_exited(area: Area2D) -> void:
-    if area is Character:
-        if area.faction == Character.Faction.Enemy:
-            return
-        target = null
-        print("%s stopped seeing %s" % [ self , area])
-        vision_renderer.color = original_color
+    alerted_sprite.visible = target_in_sight

@@ -1,9 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://dfq0kxgqysqr3"]
+[gd_scene load_steps=11 format=3 uid="uid://dfq0kxgqysqr3"]
 
 [ext_resource type="Script" uid="uid://bpr5h7w1rcmlo" path="res://scripts/enemy.gd" id="1_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://d2uu3gk5j5ib4" path="res://assets/sprites/enemy.png" id="1_7p1mj"]
-[ext_resource type="Script" uid="uid://bo744wpycscqd" path="res://addons/vision_cone_2d/vision_cone_2d.gd" id="3_5uy6h"]
-[ext_resource type="Script" uid="uid://b88iifj2svjwc" path="res://addons/vision_cone_2d/cone_editor_helper.gd" id="4_c4w8v"]
 [ext_resource type="Texture2D" uid="uid://dn0goncfmkp1d" path="res://assets/sprites/interface.png" id="5_c4w8v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md0e3"]
@@ -57,97 +55,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4w8v"]
 size = Vector2(20, 0)
 
-[sub_resource type="Animation" id="Animation_nenq2"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -26)]
-}
-
-[sub_resource type="Animation" id="Animation_xwavj"]
-resource_name = "alerted"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.25, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, -24), Vector2(0, -28), Vector2(0, -24)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_md484"]
-_data = {
-&"RESET": SubResource("Animation_nenq2"),
-&"alerted": SubResource("Animation_xwavj")
-}
-
 [node name="Enemy" type="CharacterBody2D"]
 z_index = 10
 collision_layer = 8
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_4ra3w")
-alert_color = Color(0.89411765, 0.023529412, 0, 0.11764706)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -160,40 +73,14 @@ shape = SubResource("RectangleShape2D_c4w8v")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 debug_enabled = true
 
-[node name="VisionCone2D" type="Node2D" parent="." node_paths=PackedStringArray("write_collision_polygon", "write_polygon2d")]
-script = ExtResource("3_5uy6h")
-ray_count = 64
-max_distance = 200.0
-collision_layer_mask = 3
-write_collision_polygon = NodePath("VisionConeArea/VisionConeCollider")
-write_polygon2d = NodePath("VisionConeRenderer")
-min_distance_sqr = 64.0
-
-[node name="VisionConeRenderer" type="Polygon2D" parent="VisionCone2D"]
-color = Color(0.89411765, 0.023529412, 0, 0.05882353)
-
-[node name="VisionConeArea" type="Area2D" parent="VisionCone2D"]
-collision_layer = 0
-collision_mask = 3
-monitorable = false
-
-[node name="VisionConeCollider" type="CollisionPolygon2D" parent="VisionCone2D/VisionConeArea"]
-
-[node name="DebugDraw" type="Node2D" parent="VisionCone2D"]
-script = ExtResource("4_c4w8v")
-
 [node name="AlertedSprite" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(0, -26)
+position = Vector2(0, -24)
 texture = ExtResource("5_c4w8v")
 hframes = 18
 vframes = 14
 frame = 78
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AlertedSprite"]
-libraries = {
-&"": SubResource("AnimationLibrary_md484")
-}
-
-[connection signal="area_entered" from="VisionCone2D/VisionConeArea" to="." method="_on_vision_cone_area_area_entered"]
-[connection signal="area_exited" from="VisionCone2D/VisionConeArea" to="." method="_on_vision_cone_area_area_exited"]
+[node name="VisionRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(100, 0)
+collision_mask = 3
+collide_with_areas = true
