@@ -6,6 +6,7 @@ var direction: Vector2
 var distance_travelled: float
 var max_distance: float
 var initial_position: Vector2
+var knockback_force = 5
 
 var impact_particle_scene := preload("res://scenes/bullet_impact_particle.tscn")
 var bullet_impact_scene := preload("res://scenes/bullet_impact.tscn")
@@ -33,11 +34,10 @@ func _process(delta: float) -> void:
     
     if collision:
         var collider := collision.get_collider()
-        print(collider)
         if collider is Character:
-            print(collider.faction)
             if collider.faction != faction:
                 collider.take_damage(1)
+                collider.knock_back(knockback_force, direction)
                 hit_effect(velocity.angle(), true)
         else:
             hit_effect(velocity.angle())

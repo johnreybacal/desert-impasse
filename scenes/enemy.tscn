@@ -57,12 +57,12 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xwavj"]
-size = Vector2(21, 11)
+size = Vector2(17, 9)
 
 [node name="Enemy" type="CharacterBody2D"]
 z_index = 10
 collision_layer = 8
-collision_mask = 2
+collision_mask = 11
 motion_mode = 1
 script = ExtResource("1_4ra3w")
 
@@ -83,12 +83,17 @@ hp = 10.0
 faction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Character"]
-position = Vector2(0.5, 6.5)
+position = Vector2(0.5, 7.5)
 shape = SubResource("RectangleShape2D_xwavj")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+neighbor_distance = 50.0
+avoidance_layers = 8
+avoidance_mask = 8
 
 [node name="AlertedSprite" type="Sprite2D" parent="."]
+z_index = 1
 position = Vector2(0, -24)
 texture = ExtResource("5_c4w8v")
 hframes = 18
@@ -99,3 +104,5 @@ frame = 78
 target_position = Vector2(100, 0)
 collision_mask = 3
 collide_with_areas = true
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
